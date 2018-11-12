@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# sysinfo_page - A script to produce an html file
+# sysinfo_page - A script to produce an HTML file
 
-echo "<html>"
-echo "<head>"
-echo "  <title>"
-echo "  The title of your page"
-echo "  </title>"
-echo "</head>"
-echo ""
-echo "<body>"
-echo "  Your page content goes here."
-echo "</body>"
-echo "</html>"
+echo "<html>
+ <head>
+   <title>
+   The title of your page
+   </title>
+ </head>
+ 
+ <body>
+   Your page content goes here.
+ </body>
+ </html>"

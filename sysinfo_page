@@ -14,6 +14,7 @@ cat <<- _EOF_
 
     <body>
     <h1>$title $HOSTNAME</h1>
+    <p>Updated on $(date +"%x %r %Z") by $USER</p>
     </body>
     </html>
 _EOF_

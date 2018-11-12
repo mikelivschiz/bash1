@@ -2,18 +2,18 @@
 
 # sysinfo_page - A script to produce an HTML file
 
-title="My System Information"
+title="System Information for"
 
 cat <<- _EOF_
     <html>
     <head>
         <title>
-        $title
+        $title $HOSTNAME
         </title>
     </head>
 
     <body>
-    <h1>$title</h1>
+    <h1>$title $HOSTNAME</h1>
     </body>
     </html>
 _EOF_

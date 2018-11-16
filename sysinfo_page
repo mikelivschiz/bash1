@@ -12,8 +12,22 @@ TIME_STAMP="Updated on $RIGHT_NOW by $USER"
 
 system_info()
 {
-    echo "<h2>System release info</h2>"
-    echo "<p>Function not yet implemented</p>"
+    # Find any release files in /etc
+
+    if ls /etc/*release 1>/dev/null 2>&1; then
+        echo "<h2>System release info</h2>"
+        echo "<pre>"
+        for i in /etc/*release; do
+
+            # Since we can't be sure of the
+            # length of the file, only
+            # display the first line.
+
+            head -n 1 $i
+        done
+        uname -orp
+        echo "</pre>"
+    fi
 
 }   # end of system_info
 
@@ -40,16 +54,23 @@ drive_space()
 
 home_space()
 {
-    # Only the superuser can get this information
-
-    if [ "$(id -u)" = "0" ]; then
-        echo "<h2>Home directory space by user</h2>"
-        echo "<pre>"
-        echo "Bytes Directory"
-        du -s /home/* | sort -nr
-        echo "</pre>"
+    echo "<h2>Home directory space by user</h2>"
+    echo "<pre>"
+    format="%8s%10s%10s   %-s\n"
+    printf "$format" "Dirs" "Files" "Blocks" "Directory"
+    printf "$format" "----" "-----" "------" "---------"
+    if [ $(id -u) = "0" ]; then
+        dir_list="/home/*"
+    else
+        dir_list=$HOME
     fi
-
+    for home_dir in $dir_list; do
+        total_dirs=$(find $home_dir -type d | wc -l)
+        total_files=$(find $home_dir -type f | wc -l)
+        total_blocks=$(du -s $home_dir)
+        printf "$format" $total_dirs $total_files $total_blocks
+    done
+    echo "</pre>"
 }   # end of home_space
 
 
@@ -82,7 +103,7 @@ usage()
 ##### Main
 
 interactive=
-filename=~/sysinfo_page.html
+filename=~/bash1/sysinfo_page.html
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -133,4 +154,10 @@ echo "output file = $filename"
 
 # Write page (comment out until testing is complete)
 
-# write_page > $filename
+write_page > $filename
+
+#system_info
+#show_uptime
+#drive_space
+#home_space
+
